@@ -84,7 +84,37 @@ value of object like if we want to acces the object name inside the function we 
 but in case of the arrow function scope of this is globally or returning undefined
 
 
+4)Function vs arrow function and this
+question1) debug
+const obj = {
+    name: "JavaScript",
+    getName:function(){
+        const arrow=()=>this.name
+        return arrow()
+        
+    }
+};
 
+we have to use arrow function inside the function and return it
+
+question4)
+
+regular function pros
+rugular function have its own this context
+regular function have fuction declaration hosting we can call the function before its declaration
+
+cons 
+syntax is longer compared to arrow function
+
+pros of arrow function 
+syntax short it has some time one line syntax
+single line arrow function can automatically return 
+
+cons
+it cant be used as constructor
+
+
+vidoe link: https://drive.google.com/drive/folders/1xWMNgs6t4hNFQVIOo6m6xZ6FO2p3meuN?usp=sharing
 
 
 
