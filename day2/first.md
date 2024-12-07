@@ -205,7 +205,7 @@ const numbers = { a: 1, b: 2, c: 3 };
 const resultCall = sum.call(numbers, numbers.a, numbers.b, numbers.c);
 console.log(resultCall); 
 
-video link:
+video link: https://drive.google.com/drive/folders/1xWMNgs6t4hNFQVIOo6m6xZ6FO2p3meuN?usp=sharing
 
 
 
