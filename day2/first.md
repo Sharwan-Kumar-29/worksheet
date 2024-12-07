@@ -149,6 +149,66 @@ let sortedWords = words.sort((a, b) => a.localeCompare(b));
 console.log(sortedWords);
 
 
+5) this Keyword
+
+const obj = {
+    name: "Alice",
+    greet: function() {
+        console.log(`Hello, ${this.name}`);
+    }
+};
+
+obj.greet();
+
+bug resolved
+
+
+question3)
+
+function Person(name) {
+  this.name = name;  
+  
+  
+  this.logName = function() {
+    console.log(`My name is ${this.name}`);
+  };
+}
+
+
+const person1 = new Person("ram");
+
+// Calling the method to log the name
+person1.logName();  // Expected Output: My name is ram
+
+
+6) Call,Apply and Bind
+
+error based debugging
+
+const obj = {
+    num: 42,
+    getNum() {
+        return this.num;
+    }
+};
+
+const detachedGetNum = obj.getNum.bind(obj);
+console.log(detachedGetNum()); //output:42
+
+
+3)
+ans) function sum(a, b, c) {
+    return a + b + c;
+}
+const numbers = { a: 1, b: 2, c: 3 };
+
+const resultCall = sum.call(numbers, numbers.a, numbers.b, numbers.c);
+console.log(resultCall); 
+
+video link:
+
+
+
 
 
 
