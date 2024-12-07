@@ -1,0 +1,265 @@
+const myPromise = new Promise((resolve, reject) => {
+    let success = true; // Simulate success or failure
+    if (success) {
+        resolve("Operation succeeded!");
+    } else {
+        reject("Operation failed!");
+    }
+});
+
+myPromise
+    .then((result) => {
+        console.log(result); // Output if resolved
+    })
+    .catch((error) => {
+        console.log(error); // Output if rejected
+    });
+
+What is a Promise?
+A Promise in JavaScript is an object representing the eventual completion or failure of an asynchronous operation. 
+It provides a cleaner and more powerful way to handle asynchronous tasks compared to callbacks.
+
+How Promises Work
+1): Creating a Promise A promise takes an executor function as its argument,
+which has two parameters:
+
+resolve: A function to call when the operation succeeds.
+reject: A function to call when the operation fails.
+
+2): States of a Promise
+
+Pending: The promise is still running (neither fulfilled nor rejected).
+Fulfilled: The promise is completed successfully (calls resolve).
+Rejected: The promise fails (calls reject).
+
+
+3):Consuming a Promise
+
+Use .then() to handle a resolved promise.
+Use .catch() to handle a rejected promise.
+
+
+const myPromise = new Promise((resolve, reject) => {
+    let success = true; // Simulate success or failure
+    if (success) {
+        resolve("Operation succeeded!");
+    } else {
+        reject("Operation failed!");
+    }
+});
+
+myPromise
+    .then((result) => {
+        console.log(result); // Output if resolved
+    })
+    .catch((error) => {
+        console.log(error); // Output if rejected
+    });
+
+
+Creating the Promise
+
+let success = true; simulates the outcome of an operation.
+If success is true, resolve("Operation succeeded!") is called, moving the promise to the fulfilled state.
+If success is false, reject("Operation failed!") is called, moving the promise to the rejected state.
+Consuming the Promise
+
+.then() is executed if the promise resolves successfully, printing the result.
+.catch() is executed if the promise is rejected, printing the error.
+
+
+question 2). What does resolve do inside a promise?
+
+The resolve function is used to indicate that the promise has been successfully completed.
+When resolve is called, the promise moves from the pending state to the fulfilled state, and the value passed to resolve is provided to the .then() handler
+
+
+question 3). What happens if a promise is rejected?
+
+When a promise is rejected, it moves from the pending state to the rejected state.
+The value passed to the reject function is provided to the .catch() handler, which is responsible for handling errors.
+
+question 4) How do .then() and .catch() work?
+
+.then():
+
+Executes when a promise is resolved (fulfilled).
+Receives the value passed to the resolve function.
+You can chain multiple .then() calls for sequential operations.
+
+.catch():
+
+Executes when a promise is rejected.
+Receives the error or value passed to the reject function.
+It handles errors anywhere in the promise chain.
+
+
+question 5). What will happen if you do not include a .catch() block?
+
+If a promise is rejected and there is no .catch() block, the error will go unhandled.
+In most environments, this results in an Uncaught (in promise) error in the console.
+
+
+
+Example 2: Fetch User Data
+Create a function fetchUserData that returns a promise. Resolve the promise with a user object after 2 seconds.
+ans) function fetchUserData() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({ id: 1, name: "John Doe", age: 25 });
+        }, 2000);
+    });
+}
+
+fetchUserData().then((user) => console.log("User data:", user));
+
+output:User data: { id: 1, name: 'John Doe', age: 25 }
+
+
+Example 3: Combine Multiple Promises
+Write two promises: one that resolves user details, and another that resolves orders. Use Promise.all to log both results.
+
+const userPromise = new Promise((resolve) => {
+    setTimeout(() => resolve({ id: 1, name: "John Doe" }), 1000);
+});
+
+const ordersPromise = new Promise((resolve) => {
+    setTimeout(() => resolve(["Order1", "Order2"]), 2000);
+});
+
+Promise.all([userPromise, ordersPromise])
+    .then(([user, orders]) => {
+        console.log("User:", user);
+        console.log("Orders:", orders);
+    })
+    .catch((error) => console.error(error));
+
+output: User: { id: 1, name: 'John Doe' }
+Orders: [ 'Order1', 'Order2' ]
+
+# 
+# Promise.all([promise1, promise2, promise3])
+#     .then((results) => {
+#         // Results is an array: [result1, result2, result3]
+#     })
+#     .catch((error) => {
+#         // Error is the rejection reason of the first failed promise
+#     });
+
+# 
+
+Example 1: Fetch Multiple Data Sources
+Imagine fetching data from two APIs simultaneously.
+
+# const fetchUser = new Promise((resolve) => {
+#     setTimeout(() => resolve({ id: 1, name: "Alice" }), 1000);
+# });
+
+# const fetchOrders = new Promise((resolve) => {
+#     setTimeout(() => resolve(["Order1", "Order2"]), 2000);
+# });
+
+# Promise.all([fetchUser, fetchOrders])
+#     .then(([user, orders]) => {
+#         console.log("User:", user);
+#         console.log("Orders:", orders);
+#     })
+#     .catch((error) => console.error("Error:", error));
+
+# output: User: { id: 1, name: 'Alice' }
+# Orders: [ 'Order1', 'Order2' ]
+
+Example 2: Handling Rejection
+If any promise in Promise.all rejects, the entire Promise.all call rejects.
+
+# const promise1 = Promise.resolve("Promise 1 resolved");
+# const promise2 = Promise.reject("Promise 2 rejected");
+# const promise3 = Promise.resolve("Promise 3 resolved");
+
+# Promise.all([promise1, promise2, promise3])
+#     .then((results) => console.log("Results:", results))
+#     .catch((error) => console.error("Error:", error));
+
+# output:Error: Promise 2 rejected
+
+
+Order of Results
+
+Even if the promises resolve at different times, the results in the then() block will maintain the order of the input array.
+javascript
+Copy code
+
+# const promise1 = new Promise((resolve) => setTimeout(() => resolve("First"), 3000));
+# const promise2 = new Promise((resolve) => setTimeout(() => resolve("Second"), 1000));
+
+# Promise.all([promise1, promise2])
+#     .then((results) => console.log("Results:", results));
+
+
+# output: Results: [ 'First', 'Second' ]
+
+
+When Not to Use Promise.all
+If you need independent error handling, use Promise.allSettled instead, which waits for all promises to settle (fulfilled or rejected) and provides the status of each promise.
+
+Example:
+
+# const promise1 = Promise.resolve("Resolved");
+# const promise2 = Promise.reject("Rejected");
+
+Promise.allSettled([promise1, promise2]).then((results) => console.log(results));
+opoutput:
+# [
+#   { status: 'fulfilled', value: 'Resolved' },
+#   { status: 'rejected', reason: 'Rejected' }
+# ]
+
+What is Promise.allSettled?
+Promise.allSettled is a utility method in JavaScript that waits for all promises in an array to settle (either fulfilled or rejected). Unlike Promise.all, it does not short-circuit when a promise is rejected. Instead, it gathers the results of all promises in an array, where each result includes the promise's status (fulfilled or rejected) and its value or reason.'
+
+
+Example 4: Chaining Promises
+Create a function login that resolves a token. Chain it with a fetchDashboard function that uses the token to resolve dashboard data.
+
+javascript
+Copy code
+
+# function login() {
+#     return new Promise((resolve) => {
+#         setTimeout(() => resolve("token123"), 1000);
+#     });
+# }
+
+# function fetchDashboard(token) {
+#     return new Promise((resolve) => {
+#         setTimeout(() => resolve(`Dashboard data for token: ${token}`), 2000);
+#     });
+# }
+
+# login()
+#     .then((token) => {
+#         console.log("Logged in with token:", token);
+#         return fetchDashboard(token);
+#     })
+#     .then((dashboard) => console.log(dashboard))
+#     .catch((error) => console.error(error));
+
+
+# output: Logged in with token: token123
+# Dashboard data for token: token123
+
+What is Promise.any?
+# Promise.any is a utility method in JavaScript that takes an array of promises and resolves as soon as any one of the promises fulfills.
+
+# If at least one promise resolves: It returns the result of the first fulfilled promise.
+# If all promises reject: It rejects with an AggregateError, which contains an array of all the rejection reasons.
+
+When to Use Promise.any?
+Promise.any is useful when:
+
+# You only care about the fastest successful result.
+# For example, querying multiple servers or APIs and using the response from the first one that succeeds.
+# Resilience against failures.
+# Even if some promises fail, you still get the result from the first successful one, without short-circuiting on rejection.
+
+
